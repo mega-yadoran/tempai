@@ -18,7 +18,8 @@
     "types": ["@nuxt/types", "@nuxtjs/axios", "@types/node", "@nuxtjs/vuetify", "unplugin-vue2-script-setup/types"]
   },
   "vueCompilerOptions": {
-    "experimentalCompatMode": 2
+    "experimentalCompatMode": 2,
+    "experimentalDisableTemplateSupport": true
   },
   "exclude": ["node_modules", ".nuxt", "dist"]
 }
