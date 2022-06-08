@@ -16,15 +16,33 @@
 import { PropType, ref } from '@nuxtjs/composition-api';
 
 const props = defineProps({
+  selectedTiles: {
+    type: Array as PropType<number[]>,
+    required: true,
+  },
+  isInputable: { type: Boolean, required: true },
   type: { type: String as PropType<'man' | 'pin' | 'sou'>, required: true },
 });
 
+const emit = defineEmits<{
+  (e: 'update:selectedTiles', value: number[]): void;
+}>();
+
 const tiles = ref(
-  [...Array(9)].map((_, i) => ({ num: i + 1, selected: false }))
+  [...Array(9)].map((_, i) => ({
+    num: i + 1,
+    selected: i + 1 in props.selectedTiles,
+  }))
 );
 
 const changeSelect = (num: number) => {
-  tiles.value[num - 1].selected = !tiles.value[num - 1].selected;
+  if (props.isInputable) {
+    tiles.value[num - 1].selected = !tiles.value[num - 1].selected;
+    emit(
+      'update:selectedTiles',
+      tiles.value.filter((t) => t.selected).map((t) => t.num)
+    );
+  }
 };
 </script>
 
