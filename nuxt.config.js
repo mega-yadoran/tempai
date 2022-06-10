@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -37,10 +37,11 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    ['@nuxt/typescript-build', { typeCheck: false }],
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api/module',
+    'unplugin-vue2-script-setup/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -75,5 +76,10 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-}
+  build: {
+    babel: {
+      babelrc: false,
+      compact: false,
+    },
+  },
+};
