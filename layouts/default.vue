@@ -37,10 +37,23 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from '@vue/composition-api';
+
 const tabItems = [
   { href: '/', label: '練習' },
   { href: '/challenge', label: 'チャレンジ' },
 ];
+
+onMounted(() => {
+  // ダブルタップでの拡大を防止
+  document.addEventListener(
+    'dblclick',
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
+});
 </script>
 
 <style lang="scss" scoped>
