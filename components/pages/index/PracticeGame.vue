@@ -1,28 +1,30 @@
 <template>
   <div class="text-center">
-    <div class="mt-2 mb-4 text-h5 text-sm-h4">何待ち？</div>
+    <div class="mt-2 mb-4 text-h5 text-sm-h4">
+      第{{ count }}問
+      <span v-if="countStreak >= 2" class="text-body-1 red--text"
+        >{{ countStreak }}連鎖中！</span
+      >
+    </div>
     <Question type="man" :tiles="questionTiles" />
 
     <v-divider class="my-4" />
 
-    <v-expand-transition>
-      <div v-show="!isCorrect">
-        <v-row justify="center" class="my-2">
-          <div>答えの牌を選んでください</div>
+    <div>
+      <v-row justify="center" align="center" class="my-2">
+        <div>待ち牌を選んでください</div>
 
-          <v-btn color="error" small class="ml-2" @click="judge">
-            <v-icon small>mdi-flag</v-icon>
-          </v-btn>
-        </v-row>
-        <div>↓↓</div>
-      </div>
-    </v-expand-transition>
-
-    <v-expand-transition>
-      <div v-show="isCorrect">
-        <div class="text-h5 red--text font-weight-bold">正解！！</div>
-      </div>
-    </v-expand-transition>
+        <v-btn
+          :disabled="!isInputable"
+          color="error"
+          small
+          class="ml-2"
+          @click="judge"
+        >
+          <v-icon small>mdi-flag</v-icon>
+        </v-btn>
+      </v-row>
+    </div>
 
     <div class="answer_area">
       <AnswerForm
@@ -34,7 +36,8 @@
       <img v-show="isCorrect" src="/correct.png" class="result_mark" />
       <img v-show="isIncorrect" src="/incorrect.png" class="result_mark" />
     </div>
-    <v-row v-if="!isCorrect" justify="center">
+
+    <v-row v-if="!isCorrect" justify="center" class="my-8">
       <v-btn
         color="primary"
         :disabled="!isInputable"
@@ -45,7 +48,7 @@
       </v-btn>
     </v-row>
 
-    <v-row v-if="isCorrect" justify="center" class="my-4">
+    <v-row v-if="isCorrect" justify="center" class="my-8">
       <v-btn color="error" class="font-weight-bold" @click="finish">
         終了
       </v-btn>
@@ -63,6 +66,8 @@ import { sleep } from '~/plugins/sleep';
 import { arrayEquals } from '~/plugins/arrayEquals';
 import { getRandomQuestion } from '~/plugins/question';
 
+const count = ref(1);
+const countStreak = ref(0);
 const isCorrect = ref(false);
 const isIncorrect = ref(false);
 const isInputable = ref(true);
@@ -80,8 +85,10 @@ setRandomQuestion();
 const judge = async () => {
   isInputable.value = false;
   if (arrayEquals(selectedTiles.value, answerTiles.value)) {
+    countStreak.value++;
     isCorrect.value = true;
   } else {
+    countStreak.value = -1;
     isIncorrect.value = true;
     await sleep(1000);
     isInputable.value = true;
@@ -90,6 +97,7 @@ const judge = async () => {
 };
 
 const next = () => {
+  count.value++;
   isInputable.value = true;
   isCorrect.value = false;
   isIncorrect.value = false;
