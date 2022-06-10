@@ -24,26 +24,23 @@
       <template #extension>
         <v-tabs centered height="30px">
           <v-tabs-slider color="grey darken-3"></v-tabs-slider>
-          <v-tab v-for="item in data.tabItems" :key="item.href" :to="item.href">
+          <v-tab v-for="item in tabItems" :key="item.href" :to="item.href">
             {{ item.label }}
           </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
     <v-container>
-      <nuxt />
+      <nuxt class="mb-8" />
     </v-container>
   </v-app>
 </template>
 
 <script setup lang="ts">
-import { reactive } from '@nuxtjs/composition-api'
-const data = reactive({
-  tabItems: [
-    { href: '/', label: '練習' },
-    { href: '/challenge', label: 'チャレンジ' },
-  ],
-})
+const tabItems = [
+  { href: '/', label: '練習' },
+  { href: '/challenge', label: 'チャレンジ' },
+];
 </script>
 
 <style lang="scss" scoped>

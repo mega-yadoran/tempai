@@ -1,20 +1,26 @@
 <template>
   <div class="text-center">
-    <div class="my-2 text-h4">何待ち？</div>
-    <Question type="man" :tiles="[1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9]" />
+    <div class="mt-2 mb-4 text-h5 text-sm-h4">何待ち？</div>
+    <Question type="man" :tiles="questionTiles" />
 
     <v-divider class="my-4" />
 
     <v-expand-transition>
       <div v-show="!isCorrect">
-        <div>答えの牌を選んでください</div>
+        <v-row justify="center" class="my-2">
+          <div>答えの牌を選んでください</div>
+
+          <v-btn color="error" small class="ml-2" @click="judge">
+            <v-icon small>mdi-flag</v-icon>
+          </v-btn>
+        </v-row>
         <div>↓↓</div>
       </div>
     </v-expand-transition>
 
     <v-expand-transition>
       <div v-show="isCorrect">
-        <div class="text-h6 red--text font-weight-bold">正解！！</div>
+        <div class="text-h5 red--text font-weight-bold">正解！！</div>
       </div>
     </v-expand-transition>
 
@@ -23,19 +29,31 @@
         :selected-tiles.sync="selectedTiles"
         type="man"
         :is-inputable="isInputable"
-        class="my-8"
+        class="my-6"
       />
       <img v-show="isCorrect" src="/correct.png" class="result_mark" />
       <img v-show="isIncorrect" src="/incorrect.png" class="result_mark" />
     </div>
-    <v-btn
-      color="primary"
-      :disabled="!isInputable"
-      class="font-weight-bold"
-      @click="judge"
-    >
-      決定
-    </v-btn>
+    <v-row v-if="!isCorrect" justify="center">
+      <v-btn
+        color="primary"
+        :disabled="!isInputable"
+        class="font-weight-bold mx-4"
+        @click="judge"
+      >
+        決定
+      </v-btn>
+    </v-row>
+
+    <v-row v-if="isCorrect" justify="center" class="my-4">
+      <v-btn color="error" class="font-weight-bold" @click="finish">
+        終了
+      </v-btn>
+
+      <v-btn color="success" class="ml-12 font-weight-bold" @click="next">
+        次へ
+      </v-btn>
+    </v-row>
   </div>
 </template>
 
@@ -43,16 +61,25 @@
 import { ref } from '@nuxtjs/composition-api';
 import { sleep } from '~/plugins/sleep';
 import { arrayEquals } from '~/plugins/arrayEquals';
+import { getRandomQuestion } from '~/plugins/question';
 
 const isCorrect = ref(false);
 const isIncorrect = ref(false);
 const isInputable = ref(true);
 const selectedTiles = ref<number[]>([]);
+const questionTiles = ref<number[]>([]);
+const answerTiles = ref<number[]>([]);
+
+const setRandomQuestion = () => {
+  [questionTiles.value, answerTiles.value] = getRandomQuestion();
+  console.log(answerTiles.value);
+};
+
+setRandomQuestion();
 
 const judge = async () => {
-  // 動作テストのため、１・２・３を選んだときに正解表示する
   isInputable.value = false;
-  if (arrayEquals(selectedTiles.value, [1, 2, 3])) {
+  if (arrayEquals(selectedTiles.value, answerTiles.value)) {
     isCorrect.value = true;
   } else {
     isIncorrect.value = true;
@@ -60,6 +87,19 @@ const judge = async () => {
     isInputable.value = true;
     isIncorrect.value = false;
   }
+};
+
+const next = () => {
+  isInputable.value = true;
+  isCorrect.value = false;
+  isIncorrect.value = false;
+  selectedTiles.value = [];
+  [questionTiles.value, answerTiles.value] = getRandomQuestion();
+  console.log(answerTiles.value);
+};
+
+const finish = () => {
+  //
 };
 </script>
 

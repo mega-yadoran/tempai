@@ -2,12 +2,12 @@
   <img :src="imgPath" />
 </template>
 <script setup lang="ts">
-import { computed, PropType } from '@nuxtjs/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
-const props = defineProps({
-  type: { type: String as PropType<'man' | 'pin' | 'sou'>, required: true },
-  num: { type: Number, required: true },
-});
+const props = defineProps<{
+  type: 'man' | 'pin' | 'sou';
+  num: number;
+}>();
 
 const imgRoot = '/tile';
 const imgPath = computed(

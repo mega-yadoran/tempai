@@ -4,12 +4,10 @@
   </button>
 </template>
 <script setup lang="ts">
-import { PropType } from '@nuxtjs/composition-api';
-
-const props = defineProps({
-  type: { type: String as PropType<'man' | 'pin' | 'sou'>, required: true },
-  num: { type: Number, required: true },
-});
+const props = defineProps<{
+  type: 'man' | 'pin' | 'sou';
+  num: number;
+}>();
 
 const emit = defineEmits<{
   (e: 'click'): void;

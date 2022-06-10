@@ -1,54 +1,45 @@
 <template>
   <div>
     <TileButton
-      v-for="tile in tiles"
-      :key="tile.num"
+      v-for="i in 9"
+      :key="i"
       :type="props.type"
-      :num="tile.num"
+      :num="i"
       class="tile"
-      :class="tile.selected ? 'tile__selected' : ''"
-      @click="changeSelect(tile.num)"
+      :class="props.selectedTiles.includes(i) ? 'tile__selected' : ''"
+      @click="changeSelect(i)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from '@nuxtjs/composition-api';
-
-const props = defineProps({
-  selectedTiles: {
-    type: Array as PropType<number[]>,
-    required: true,
-  },
-  isInputable: { type: Boolean, required: true },
-  type: { type: String as PropType<'man' | 'pin' | 'sou'>, required: true },
-});
+const props = defineProps<{
+  selectedTiles: number[];
+  isInputable: Boolean;
+  type: String;
+}>();
 
 const emit = defineEmits<{
   (e: 'update:selectedTiles', value: number[]): void;
 }>();
 
-const tiles = ref(
-  [...Array(9)].map((_, i) => ({
-    num: i + 1,
-    selected: i + 1 in props.selectedTiles,
-  }))
-);
-
 const changeSelect = (num: number) => {
   if (props.isInputable) {
-    tiles.value[num - 1].selected = !tiles.value[num - 1].selected;
-    emit(
-      'update:selectedTiles',
-      tiles.value.filter((t) => t.selected).map((t) => t.num)
-    );
+    if (props.selectedTiles.includes(num)) {
+      emit(
+        'update:selectedTiles',
+        [...props.selectedTiles].filter((n) => n !== num).sort()
+      );
+    } else {
+      emit('update:selectedTiles', [...props.selectedTiles, num].sort());
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .tile {
-  width: 7%;
+  width: 8.5%;
   margin: 0 3px;
   opacity: 0.25;
 
