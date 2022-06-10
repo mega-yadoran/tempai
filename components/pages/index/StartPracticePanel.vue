@@ -11,8 +11,9 @@
       </li>
       <li class="my-1">正解するまで何度でも回答できます</li>
       <li class="my-1">
-        どうしてもわからないときは<v-icon color="red lighten-2">mdi-flag</v-icon
-        >を押すと答えを見ることができます
+        どうしてもわからないときは
+        <v-btn color="error" x-small><v-icon small>mdi-flag</v-icon></v-btn>
+        を押すと答えを見ることができます
       </li>
       <li class="my-1">無限に問題が続くので、気が済むまで練習してください！</li>
     </ul>
