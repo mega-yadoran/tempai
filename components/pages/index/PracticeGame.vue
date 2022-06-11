@@ -21,45 +21,44 @@
 
     <v-divider class="my-4" />
 
-    <div>
+    <!-- 降参後の答え表示 -->
+    <Answer v-if="isGiveUp()" :type="tileType" :tiles="answerTiles" />
+
+    <!-- ゲーム中の入力欄 -->
+    <div v-else>
       <v-row justify="center" align="center" class="my-2">
         <div>待ち牌を全て選んでください</div>
 
-        <v-btn
-          :disabled="!isInputable"
-          color="error"
-          small
-          class="ml-2"
-          @click="judge"
-        >
+        <!-- 降参ボタン -->
+        <v-btn color="error" small class="ml-2 ml-sm-6" @click="onGiveUpButton">
           <v-icon small>mdi-flag</v-icon>
         </v-btn>
+
+        <!-- 降参確認ダイアログ -->
+        <GiveUpDialog :open.sync="openGiveUpDialog" @give-up="giveUp" />
       </v-row>
+
+      <div class="answer_area">
+        <AnswerForm
+          :selected-tiles.sync="selectedTiles"
+          :type="tileType"
+          :is-inputable="isInputable"
+          class="my-6"
+        />
+        <img v-show="isCorrect()" src="/correct.png" class="result_mark" />
+        <img v-show="isIncorrect()" src="/incorrect.png" class="result_mark" />
+      </div>
     </div>
 
-    <div class="answer_area">
-      <AnswerForm
-        :selected-tiles.sync="selectedTiles"
-        :type="tileType"
-        :is-inputable="isInputable"
-        class="my-6"
-      />
-      <img v-show="isCorrect" src="/correct.png" class="result_mark" />
-      <img v-show="isIncorrect" src="/incorrect.png" class="result_mark" />
-    </div>
-
-    <v-row v-if="!isCorrect" justify="center" class="my-8">
-      <v-btn
-        color="primary"
-        :disabled="!isInputable"
-        class="font-weight-bold mx-4"
-        @click="judge"
-      >
+    <!-- 問題に挑戦中は「決定」ボタンを表示 -->
+    <v-row v-if="isPlaying()" justify="center" class="my-8">
+      <v-btn color="primary" class="font-weight-bold mx-4" @click="judge">
         決定
       </v-btn>
     </v-row>
 
-    <v-row v-if="isCorrect" justify="center" class="my-8">
+    <!-- クリア後 or 降参後は「終了」と「次へ」ボタンを表示 -->
+    <v-row v-if="isCorrect() || isGiveUp()" justify="center" class="my-8">
       <v-btn color="error" class="font-weight-bold" @click="finish">
         終了
       </v-btn>
@@ -81,15 +80,21 @@ import {
   getRandomQuestion,
 } from '~/plugins/question';
 
+type GameState = 'playing' | 'correct' | 'incorrect' | 'give-up' | 'finished';
+const gameState = ref<GameState>('playing');
 const count = ref(1);
 const countStreak = ref(0);
-const isCorrect = ref(false);
-const isIncorrect = ref(false);
 const isInputable = ref(true);
+const openGiveUpDialog = ref(false);
 const tileType = ref<TileType>(getRandomTileType());
 const selectedTiles = ref<number[]>([]);
 const questionTiles = ref<number[]>([]);
 const answerTiles = ref<number[]>([]);
+
+const isPlaying = () => gameState.value === 'playing';
+const isCorrect = () => gameState.value === 'correct';
+const isIncorrect = () => gameState.value === 'incorrect';
+const isGiveUp = () => gameState.value === 'give-up';
 
 const setRandomQuestion = () => {
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
@@ -101,22 +106,34 @@ setRandomQuestion();
 const judge = async () => {
   isInputable.value = false;
   if (arrayEquals(selectedTiles.value, answerTiles.value)) {
+    // 正解の場合
     countStreak.value++;
-    isCorrect.value = true;
+    gameState.value = 'correct';
   } else {
+    // 不正解の場合
     countStreak.value = -1;
-    isIncorrect.value = true;
+    gameState.value = 'incorrect';
     await sleep(1000);
     isInputable.value = true;
-    isIncorrect.value = false;
+    gameState.value = 'playing';
   }
+};
+
+const onGiveUpButton = () => {
+  if (isInputable) {
+    openGiveUpDialog.value = true;
+  }
+};
+
+const giveUp = () => {
+  gameState.value = 'give-up';
+  countStreak.value = 0;
 };
 
 const next = () => {
   count.value++;
   isInputable.value = true;
-  isCorrect.value = false;
-  isIncorrect.value = false;
+  gameState.value = 'playing';
   selectedTiles.value = [];
   tileType.value = getRandomTileType(tileType.value);
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
