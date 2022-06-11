@@ -1,18 +1,29 @@
 <template>
   <div class="text-center">
-    <div class="mt-2 mb-4 text-h5 text-sm-h4">
-      第{{ count }}問
-      <span v-if="countStreak >= 2" class="text-body-1 red--text"
-        >{{ countStreak }}連鎖中！</span
-      >
-    </div>
+    <v-row align="center">
+      <v-col />
+
+      <v-col>
+        <div class="mt-2 mb-4 text-h5 text-sm-h4">第{{ count }}問</div>
+      </v-col>
+
+      <v-col>
+        <div
+          v-if="countStreak > 1"
+          class="px-4 red--text text-caption text-sm-body-1"
+        >
+          {{ countStreak }}連鎖中！
+        </div>
+      </v-col>
+    </v-row>
+
     <Question :type="tileType" :tiles="questionTiles" />
 
     <v-divider class="my-4" />
 
     <div>
       <v-row justify="center" align="center" class="my-2">
-        <div>待ち牌を選んでください</div>
+        <div>待ち牌を全て選んでください</div>
 
         <v-btn
           :disabled="!isInputable"
