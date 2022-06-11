@@ -1,27 +1,61 @@
 <template>
   <div>
-    <TileButton
-      v-for="i in 9"
-      :key="i"
-      :type="props.type"
-      :num="i"
-      class="tile"
-      :class="props.selectedTiles.includes(i) ? 'tile__selected' : ''"
-      @click="changeSelect(i)"
-    />
+    <v-row justify="center" align="center" class="my-2">
+      <div>待ち牌を全て選んでください</div>
+
+      <!-- 降参ボタン -->
+      <v-btn color="error" small class="ml-2 ml-sm-6" @click="onGiveUpButton">
+        <v-icon small>mdi-flag</v-icon>
+      </v-btn>
+
+      <!-- 降参確認ダイアログ -->
+      <GiveUpDialog :open.sync="openGiveUpDialog" @give-up="emit('give-up')" />
+    </v-row>
+
+    <div class="answer_area">
+      <!-- 答えの待ち牌の選択ボタン -->
+      <TileButton
+        v-for="i in 9"
+        :key="i"
+        :type="props.type"
+        :num="i"
+        class="tile my-4"
+        :class="props.selectedTiles.includes(i) ? 'tile__selected' : ''"
+        @click="changeSelect(i)"
+      />
+
+      <!-- 正解マーク -->
+      <img v-show="isCorrect" src="/correct.png" class="result_mark" />
+
+      <!-- 不正解マーク -->
+      <img v-show="isIncorrect" src="/incorrect.png" class="result_mark" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from '@vue/composition-api';
+
 const props = defineProps<{
   selectedTiles: number[];
-  isInputable: Boolean;
   type: String;
+  isInputable: Boolean;
+  isCorrect: Boolean;
+  isIncorrect: Boolean;
 }>();
 
 const emit = defineEmits<{
+  (e: 'give-up'): void;
   (e: 'update:selectedTiles', value: number[]): void;
 }>();
+
+const openGiveUpDialog = ref(false);
+
+const onGiveUpButton = () => {
+  if (props.isInputable) {
+    openGiveUpDialog.value = true;
+  }
+};
 
 const changeSelect = (num: number) => {
   if (props.isInputable) {
@@ -38,6 +72,19 @@ const changeSelect = (num: number) => {
 </script>
 
 <style lang="scss" scoped>
+.answer_area {
+  position: relative;
+
+  .result_mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 150%;
+    opacity: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .tile {
   width: 8.5%;
   margin: 0 3px;

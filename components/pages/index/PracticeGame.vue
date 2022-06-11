@@ -17,6 +17,7 @@
       </v-col>
     </v-row>
 
+    <!-- 問題の配牌表示 -->
     <Question :type="tileType" :tiles="questionTiles" />
 
     <v-divider class="my-4" />
@@ -25,30 +26,15 @@
     <Answer v-if="isGiveUp()" :type="tileType" :tiles="answerTiles" />
 
     <!-- ゲーム中の入力欄 -->
-    <div v-else>
-      <v-row justify="center" align="center" class="my-2">
-        <div>待ち牌を全て選んでください</div>
-
-        <!-- 降参ボタン -->
-        <v-btn color="error" small class="ml-2 ml-sm-6" @click="onGiveUpButton">
-          <v-icon small>mdi-flag</v-icon>
-        </v-btn>
-
-        <!-- 降参確認ダイアログ -->
-        <GiveUpDialog :open.sync="openGiveUpDialog" @give-up="giveUp" />
-      </v-row>
-
-      <div class="answer_area">
-        <AnswerForm
-          :selected-tiles.sync="selectedTiles"
-          :type="tileType"
-          :is-inputable="isInputable"
-          class="my-6"
-        />
-        <img v-show="isCorrect()" src="/correct.png" class="result_mark" />
-        <img v-show="isIncorrect()" src="/incorrect.png" class="result_mark" />
-      </div>
-    </div>
+    <AnswerForm
+      v-else
+      :selected-tiles.sync="selectedTiles"
+      :type="tileType"
+      :is-inputable="isInputable"
+      :is-correct="isCorrect()"
+      :is-incorrect="isIncorrect()"
+      @give-up="giveUp"
+    />
 
     <!-- 問題に挑戦中は「決定」ボタンを表示 -->
     <v-row v-if="isPlaying()" justify="center" class="my-8">
@@ -85,7 +71,6 @@ const gameState = ref<GameState>('playing');
 const count = ref(1);
 const countStreak = ref(0);
 const isInputable = ref(true);
-const openGiveUpDialog = ref(false);
 const tileType = ref<TileType>(getRandomTileType());
 const selectedTiles = ref<number[]>([]);
 const questionTiles = ref<number[]>([]);
@@ -119,12 +104,6 @@ const judge = async () => {
   }
 };
 
-const onGiveUpButton = () => {
-  if (isInputable) {
-    openGiveUpDialog.value = true;
-  }
-};
-
 const giveUp = () => {
   gameState.value = 'give-up';
   countStreak.value = 0;
@@ -144,18 +123,3 @@ const finish = () => {
   //
 };
 </script>
-
-<style lang="scss" scoped>
-.answer_area {
-  position: relative;
-
-  .result_mark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 150%;
-    opacity: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-</style>
