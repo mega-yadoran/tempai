@@ -1,3 +1,12 @@
+export type TileType = 'man' | 'pin' | 'sou';
+
+// ランダムな牌種を返す 
+export const getRandomTileType = (exclude?: TileType):TileType => {
+  const seed = Math.random() * 3;
+  const result = seed < 1 ? 'man' : seed < 2 ? 'pin' : 'sou';
+  return exclude === result ? getRandomTileType(exclude) : result;
+}
+
 export const getRandomQuestion = () => {
   const seed = Math.floor(Math.random() * questions.length);
   return [questions[seed], answers[seed]];

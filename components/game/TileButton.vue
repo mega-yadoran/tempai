@@ -4,8 +4,10 @@
   </button>
 </template>
 <script setup lang="ts">
+import { TileType } from '~/plugins/question';
+
 const props = defineProps<{
-  type: 'man' | 'pin' | 'sou';
+  type: TileType;
   num: number;
 }>();
 

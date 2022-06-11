@@ -6,7 +6,7 @@
         >{{ countStreak }}連鎖中！</span
       >
     </div>
-    <Question type="man" :tiles="questionTiles" />
+    <Question :type="tileType" :tiles="questionTiles" />
 
     <v-divider class="my-4" />
 
@@ -29,7 +29,7 @@
     <div class="answer_area">
       <AnswerForm
         :selected-tiles.sync="selectedTiles"
-        type="man"
+        :type="tileType"
         :is-inputable="isInputable"
         class="my-6"
       />
@@ -64,13 +64,18 @@
 import { ref } from '@nuxtjs/composition-api';
 import { sleep } from '~/plugins/sleep';
 import { arrayEquals } from '~/plugins/arrayEquals';
-import { getRandomQuestion } from '~/plugins/question';
+import {
+  TileType,
+  getRandomTileType,
+  getRandomQuestion,
+} from '~/plugins/question';
 
 const count = ref(1);
 const countStreak = ref(0);
 const isCorrect = ref(false);
 const isIncorrect = ref(false);
 const isInputable = ref(true);
+const tileType = ref<TileType>(getRandomTileType());
 const selectedTiles = ref<number[]>([]);
 const questionTiles = ref<number[]>([]);
 const answerTiles = ref<number[]>([]);
@@ -102,6 +107,7 @@ const next = () => {
   isCorrect.value = false;
   isIncorrect.value = false;
   selectedTiles.value = [];
+  tileType.value = getRandomTileType(tileType.value);
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
   console.log(answerTiles.value);
 };
