@@ -1,5 +1,5 @@
 <template>
-  <h1>challenge</h1>
+  <h1>実装予定</h1>
 </template>
 
 <script setup lang="ts"></script>
