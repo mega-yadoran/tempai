@@ -65,7 +65,7 @@ const changeSelect = (num: number) => {
     top: 50%;
     left: 50%;
     height: 150%;
-    opacity: 50%;
+    opacity: 0.5;
     transform: translate(-50%, -50%);
   }
 }
