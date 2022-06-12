@@ -4,12 +4,7 @@
       <div>待ち牌を全て選んでください</div>
 
       <!-- 降参ボタン -->
-      <v-btn color="error" small class="ml-2 ml-sm-6" @click="onGiveUpButton">
-        <v-icon small>mdi-flag</v-icon>
-      </v-btn>
-
-      <!-- 降参確認ダイアログ -->
-      <GiveUpDialog :open.sync="openGiveUpDialog" @give-up="emit('give-up')" />
+      <GiveUpButton :disabled="!isInputable" @give-up="emit('give-up')" />
     </v-row>
 
     <div class="answer_area">
@@ -34,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/composition-api';
-
 const props = defineProps<{
   selectedTiles: number[];
   type: String;
@@ -48,14 +41,6 @@ const emit = defineEmits<{
   (e: 'give-up'): void;
   (e: 'update:selectedTiles', value: number[]): void;
 }>();
-
-const openGiveUpDialog = ref(false);
-
-const onGiveUpButton = () => {
-  if (props.isInputable) {
-    openGiveUpDialog.value = true;
-  }
-};
 
 const changeSelect = (num: number) => {
   if (props.isInputable) {
