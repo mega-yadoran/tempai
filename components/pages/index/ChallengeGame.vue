@@ -168,6 +168,7 @@ const next = () => {
 const onGameOver = async () => {
   isInputable.value = false;
   openAlert.value = true;
+  timerRef.value.stop();
   await sleep(1000);
   gameState.value = 'finished';
 };
