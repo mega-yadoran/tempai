@@ -25,7 +25,7 @@
               color="grey darken-2"
               dark
               class="my-auto"
-              @click="_open = false"
+              @click="open = false"
             >
               <span class="text-button">キャンセル </span>
             </v-btn>
