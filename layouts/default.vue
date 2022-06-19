@@ -28,8 +28,8 @@
 import { onMounted } from '@vue/composition-api';
 
 const tabItems = [
-  { href: '/', label: '練習' },
-  { href: '/challenge', label: 'チャレンジ' },
+  { href: '/', label: 'チャレンジ' },
+  { href: '/practice', label: '練習' },
 ];
 
 onMounted(() => {

@@ -1,16 +1,16 @@
 <template>
   <!-- ルール説明画面 -->
-  <PracticeStartPanel v-if="state === 'standby'" @start="start" />
+  <ChallengeStartPanel v-if="state === 'standby'" @start="start" />
 
   <!-- ゲーム画面 -->
-  <PracticeGame
+  <ChallengeGame
     v-else-if="state === 'game'"
     :score.sync="score"
     @finish="finish"
   />
 
   <!-- 結果画面 -->
-  <PracticeResult v-else :score="score" @restart="restart" />
+  <ChallengeResult v-else :score="score" @restart="restart" />
 </template>
 
 <script setup lang="ts">
@@ -23,12 +23,13 @@ const initialScore = {
   clearCount: 0,
   streakCount: 0,
   highestStreakCount: 0,
+  totalCorrectTiles: 0,
+  life: 3,
 };
 const score = ref({ ...initialScore });
 
 const start = () => {
   state.value = 'game';
-  console.log(score.value);
 };
 
 const finish = () => {
@@ -38,7 +39,6 @@ const finish = () => {
 const restart = () => {
   state.value = 'standby';
   score.value = { ...initialScore };
-  console.log(score.value);
 };
 </script>
 
