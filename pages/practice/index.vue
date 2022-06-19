@@ -28,7 +28,6 @@ const score = ref({ ...initialScore });
 
 const start = () => {
   state.value = 'game';
-  console.log(score.value);
 };
 
 const finish = () => {
@@ -38,7 +37,6 @@ const finish = () => {
 const restart = () => {
   state.value = 'standby';
   score.value = { ...initialScore };
-  console.log(score.value);
 };
 </script>
 

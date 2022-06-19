@@ -111,7 +111,6 @@ const isFinished = () => gameState.value === 'finished';
 
 const setRandomQuestion = () => {
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
-  console.log(answerTiles.value);
 };
 
 setRandomQuestion();
@@ -164,7 +163,6 @@ const next = () => {
   tileType.value = getRandomTileType(tileType.value);
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
   timerRef.value.start();
-  console.log(answerTiles.value);
 };
 
 const onGameOver = async () => {

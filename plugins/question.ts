@@ -9,6 +9,7 @@ export const getRandomTileType = (exclude?: TileType):TileType => {
 
 export const getRandomQuestion = () => {
   const seed = Math.floor(Math.random() * questions.length);
+  console.log(answers[seed]);
   return [questions[seed], answers[seed]];
 }
 

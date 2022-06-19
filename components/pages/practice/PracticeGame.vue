@@ -92,7 +92,6 @@ const isGiveUp = () => gameState.value === 'give-up';
 
 const setRandomQuestion = () => {
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
-  console.log(answerTiles.value);
 };
 
 setRandomQuestion();
@@ -129,6 +128,5 @@ const next = () => {
   selectedTiles.value = [];
   tileType.value = getRandomTileType(tileType.value);
   [questionTiles.value, answerTiles.value] = getRandomQuestion();
-  console.log(answerTiles.value);
 };
 </script>
