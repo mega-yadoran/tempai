@@ -3,8 +3,8 @@
     <v-row justify="center" align="center" class="my-2">
       <div>待ち牌を全て選んでください</div>
 
-      <!-- 降参ボタン -->
-      <GiveUpButton :disabled="!isInputable" @give-up="emit('give-up')" />
+      <!-- 各種ボタン -->
+      <slot name="button" />
     </v-row>
 
     <div class="answer_area">
@@ -38,7 +38,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'give-up'): void;
   (e: 'update:selectedTiles', value: number[]): void;
 }>();
 
