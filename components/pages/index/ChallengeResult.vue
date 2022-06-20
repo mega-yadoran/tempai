@@ -9,20 +9,25 @@
         </div>
       </div>
 
-      <v-divider width="80%" class="my-4 mx-auto" />
+      <v-divider width="70%" class="my-4 mx-auto" />
 
       <div class="my-4">
         <div class="text-h6">クラス</div>
         <div class="mt-2 text-h5 red--text">
-          {{ getLevel() }}
+          {{ level }}
         </div>
       </div>
+
+      <v-divider width="70%" class="my-4 mx-auto" />
+      <TweetButton :share-text="shareText" />
     </v-card>
     <v-btn color="success" @click="emit('restart')">はじめから</v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from '@vue/composition-api';
+import TweetButton from '~/components/common/TweetButton.vue';
 const props = defineProps<{
   score: {
     questionCount: number;
@@ -37,7 +42,7 @@ const emit = defineEmits<{
   (e: 'restart'): void;
 }>();
 
-const level = [
+const levelList = [
   { name: 'ビギナー', point: 50 },
   { name: '中級者', point: 100 },
   { name: '強豪', point: 200 },
@@ -56,7 +61,11 @@ const calculatePoint = (): number => {
   return result;
 };
 
-const getLevel = () => {
-  return level.find((l) => l.point > calculatePoint())?.name ?? '超超神';
-};
+const level = computed(() => {
+  return levelList.find((l) => l.point > calculatePoint())?.name ?? '超超神';
+});
+
+const shareText = computed(() => {
+  return `清一色待ち当て特訓チャレンジで${props.score.clearCount}問正解して「${level.value}」クラスの称号をゲット！`;
+});
 </script>
