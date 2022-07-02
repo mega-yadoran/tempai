@@ -20,6 +20,6 @@ const props = defineProps<{
 }>();
 const tweetHref = computed(() => {
   const newLine = '%0D%0A';
-  return `https://twitter.com/intent/tweet?text=${props.shareText}${newLine}https://tempai.vercel.app/${newLine}&hashtags=清一色待ち当て特訓`;
+  return `https://twitter.com/intent/tweet?text=${props.shareText}${newLine}chin-itsu.mega-yadoran.jp/${newLine}&hashtags=清一色待ち当て特訓`;
 });
 </script>
