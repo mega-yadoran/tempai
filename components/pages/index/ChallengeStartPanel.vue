@@ -9,7 +9,7 @@
       <li class="my-2">
         清一色のテンパイ形が表示されるので、何待ちか当ててください
       </li>
-      <li class="my-2">３分間でなるべくたくさんの問題に正解してください</li>
+      <li class="my-2">２分間でなるべくたくさんの問題に正解してください</li>
       <li class="my-2">３回間違えるとゲームオーバーになります</li>
       <li class="my-2">
         <v-btn small><span class="font-weight-bold">パス</span></v-btn>

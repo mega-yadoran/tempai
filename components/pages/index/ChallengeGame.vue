@@ -4,7 +4,7 @@
     <QuestionHeader :question-count="score.questionCount">
       <!-- 残り時間表示 -->
       <template #left>
-        <Timer ref="timerRef" :minutes="3" @on-end="onGameOver" />
+        <Timer ref="timerRef" :minutes="2" @on-end="onGameOver" />
       </template>
 
       <!-- ライフ表示 -->
