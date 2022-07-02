@@ -42,6 +42,7 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api/module',
     'unplugin-vue2-script-setup/nuxt',
+    'nuxt-typed-vuex',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -81,5 +82,6 @@ export default {
       babelrc: false,
       compact: false,
     },
+    transpile: [/typed-vuex/],
   },
 };

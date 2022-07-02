@@ -6419,6 +6419,14 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
+nuxt-typed-vuex@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/nuxt-typed-vuex/-/nuxt-typed-vuex-0.3.1.tgz#a26f7b92eb19257ccda2c3a1ffaab4303088c7dc"
+  integrity sha512-oMAoO7/i/aW8NHgE9QSnNcJmKiJjFfTtgU6aotr0786ApgXk1At2qhiW63qFlXsX1wei94WmqLMuNCI/nl8Z0A==
+  dependencies:
+    typed-vuex "0.3.1"
+    upath "^2.0.1"
+
 nuxt@^2.15.8:
   version "2.15.8"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.15.8.tgz#946cba46bdaaf0e3918aa27fd9ea0fed8ed303b0"
@@ -8927,6 +8935,11 @@ type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
+
+typed-vuex@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/typed-vuex/-/typed-vuex-0.3.1.tgz#4ed6adfd8cbfe68e0792b5b75f425ce3f622627e"
+  integrity sha512-hYEcXxVNKxP6pQvzX007wJ9HdTsGlWPhSOOtpf32DbcyiPDduf6PAZPR8kwQ7+QPhp+dGyTn3K+5cKzARP6IZA==
 
 typedarray@^0.0.6:
   version "0.0.6"

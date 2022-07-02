@@ -14,9 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@nuxtjs/composition-api';
+import { ref, useContext } from '@nuxtjs/composition-api';
 
 const state = ref<'standby' | 'game' | 'result'>('standby');
+const context = useContext();
 
 const initialScore = {
   questionCount: 1,
@@ -30,15 +31,18 @@ const score = ref({ ...initialScore });
 
 const start = () => {
   state.value = 'game';
+  context.app.$accessor.game.setIsPlaying(true);
 };
 
 const finish = () => {
   state.value = 'result';
+  context.app.$accessor.game.setIsPlaying(false);
 };
 
 const restart = () => {
   state.value = 'standby';
   score.value = { ...initialScore };
+  context.app.$accessor.game.setIsPlaying(false);
 };
 </script>
 
