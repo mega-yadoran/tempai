@@ -6,16 +6,55 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - tempai',
-    title: 'tempai',
+    titleTemplate: '%s',
+    title: '清一色待ち当て特訓',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ja',
+      prefix: 'og: http://ogp.me/ns#',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: '麻雀の清一色の待ち牌を当てるゲーム',
+      },
       { name: 'format-detection', content: 'telephone=no' },
+
+      {
+        hid: 'og:site_name',
+        property: 'og:site_name',
+        content: '清一色待ち当て特訓',
+      },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'https://chin-itsu.mega-yadoran.jp',
+      },
+      { hid: 'og:title', property: 'og:title', content: '清一色待ち当て特訓' },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: '麻雀の清一色の待ち牌を当てるゲーム',
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://chin-itsu.mega-yadoran.jp/logo.png',
+      },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:site', content: '@giga_yadoran' },
+      {
+        name: 'twitter:description',
+        content: '麻雀の清一色の待ち牌を当てるゲーム',
+      },
+      { name: 'twitter:title', content: '清一色待ち当て特訓' },
+      {
+        name: 'twitter:image',
+        content: 'https://chin-itsu.mega-yadoran.jp/logo.png',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
